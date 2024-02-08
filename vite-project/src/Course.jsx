@@ -1,11 +1,18 @@
 import { Card, Typography, TextField, Button } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import {
+  atom,
+  useRecoilState,
+  useRecoilValue,
+  useSetRecoilState,
+} from "recoil";
 
 function Course() {
-  const [course, setCourses] = useState([]);
+  // const [course, setCourses] = useState([]);
   const { courseId } = useParams();
-
+  const setCourses = useSetRecoilState(coursesState);
+  console.log("course component");
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -27,32 +34,18 @@ function Course() {
     fetchData();
   }, []);
 
-  let isCourse = null;
-  for (let i = 0; i < course.length; i++) {
-    if (course[i].id == courseId) {
-      isCourse = course[i];
-    }
-  }
-  if (!isCourse) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <div
       style={{
         display: "flex",
-        flexDirection: "column",
+        flexDirection: "row",
         justifyContent: "center",
         alignItems: "center",
+        margin: "2rem 0",
       }}
     >
-      <CourseCard isCourse={isCourse} />;
-      <UpdateCard
-        isCourse={isCourse}
-        setCourses={setCourses}
-        courses={course}
-      />
-      ;
+      <CourseCard courseId={courseId} />;
+      <UpdateCard courseId={courseId} />;
     </div>
   );
 }
@@ -61,8 +54,9 @@ function UpdateCard(props) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImg] = useState("");
-  const course = props.isCourse;
-
+  const [courses, setCourses] = useRecoilState(coursesState);
+  // const course = props.isCourse;
+  console.log("Update component");
   const fieldStyle = {
     padding: "7px",
     maxWidth: "400px",
@@ -70,6 +64,7 @@ function UpdateCard(props) {
   return (
     <div
       style={{
+        width: "400px",
         margin: "1rem 0",
         display: "flex",
         flexDirection: "column",
@@ -114,7 +109,7 @@ function UpdateCard(props) {
           size="large"
           style={{ margin: ".8rem 0", maxWidth: "400px" }}
           onClick={() => {
-            fetch("http://localhost:3000/admin/courses/" + course.id, {
+            fetch("http://localhost:3000/admin/courses/" + props.courseId, {
               method: "PUT",
               body: JSON.stringify({
                 title: title,
@@ -136,19 +131,20 @@ function UpdateCard(props) {
               .then((data) => {
                 console.log("Course Added", data);
                 let updatedCourse = [];
-                for (let i = 0; i < props.courses.length; i++) {
-                  if (props.courses[i].id == course.id) {
+
+                for (let i = 0; i < courses.length; i++) {
+                  if (courses[i].id == props.courseId) {
                     updatedCourse.push({
-                      id: course.id,
+                      id: props.courseId,
                       title: title,
                       description: description,
                       imageLink: image,
                     });
                   } else {
-                    updatedCourse.push(props.courses[i]);
+                    updatedCourse.push(courses[i]);
                   }
                 }
-                props.setCourses(updatedCourse);
+                setCourses(updatedCourse);
               })
               .catch((error) => console.error("Error adding course:", error));
           }}
@@ -161,6 +157,7 @@ function UpdateCard(props) {
 }
 
 function CourseCard(props) {
+  console.log("course Card component");
   const cardStyle = {
     display: "grid",
     placeItems: "center",
@@ -177,13 +174,29 @@ function CourseCard(props) {
     objectFit: "cover",
   };
 
-  const isCourse = props.isCourse;
+  //const isCourse = props.isCourse;
+  const courses = useRecoilValue(coursesState);
+  let course = null;
+  for (let i = 0; i < courses.length; i++) {
+    if (courses[i].id == props.courseId) {
+      course = courses[i];
+    }
+  }
+  if (!course) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <Card style={cardStyle}>
-      <Typography variant="h4">{isCourse.title}</Typography>
-      <Typography variant="p">{isCourse.description}</Typography>
-      <img src={isCourse.imageLink} style={imgStyle} />
+      <Typography variant="h4">{course.title}</Typography>
+      <Typography variant="p">{course.description}</Typography>
+      <img src={course.imageLink} style={imgStyle} />
     </Card>
   );
 }
 export default Course;
+
+const coursesState = atom({
+  key: "coursesState", // unique ID (with respect to other atoms/selectors)
+  default: "", // default value (aka initial value)
+});

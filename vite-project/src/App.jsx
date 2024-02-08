@@ -10,6 +10,14 @@ import AddCourse from "./AddCourse";
 import Courses from "./Courses";
 import Course from "./Course";
 
+import {
+  RecoilRoot,
+  atom,
+  selector,
+  useRecoilState,
+  useRecoilValue,
+} from "recoil";
+
 function App() {
   return (
     <div
@@ -24,16 +32,18 @@ function App() {
         color: "black",
       }}
     >
-      <Router>
-        <Appbar></Appbar>
-        <Routes>
-          <Route path="/course/:courseId" element={<Course />} />
-          <Route path="/courses" element={<Courses />} />
-          <Route path="/addcourse" element={<AddCourse />} />
-          <Route path="/signin" element={<SignIn />} />
-          <Route path="signup" element={<Signup />} />
-        </Routes>
-      </Router>
+      <RecoilRoot>
+        <Router>
+          <Appbar></Appbar>
+          <Routes>
+            <Route path="/course/:courseId" element={<Course />} />
+            <Route path="/courses" element={<Courses />} />
+            <Route path="/addcourse" element={<AddCourse />} />
+            <Route path="/signin" element={<SignIn />} />
+            <Route path="signup" element={<Signup />} />
+          </Routes>
+        </Router>
+      </RecoilRoot>
     </div>
   );
 }
