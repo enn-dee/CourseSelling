@@ -18,7 +18,7 @@ function Appbar() {
       .then((data) => {
         if (data.username) {
           setUserEmail(data.username);
-          console.log(data.username);
+          // console.log(data.username);
         }
       });
   }, []);
@@ -37,13 +37,20 @@ function Appbar() {
         <div>
           <Typography>Couresa</Typography>
         </div>
-        <div>{userEmail}</div>
-        <div style={{ display: "flex", gap: ".5rem" }}>
+        <div
+          style={{
+            display: "flex",
+            gap: "1rem",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <div>{userEmail}</div>
           <Button
             variant="contained"
             onClick={() => {
               localStorage.setItem("token", null);
-              window.location ="/signup"
+              window.location = "/signup";
             }}
           >
             Log out
