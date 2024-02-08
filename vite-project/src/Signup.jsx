@@ -6,7 +6,6 @@ import Typography from "@mui/material/Typography";
 function Signup() {
   const [username, setusername] = useState("");
   const [password, setPass] = useState("");
-
   const cardStyle = {
     display: "flex",
     flexDirection: "column",
@@ -23,7 +22,6 @@ function Signup() {
   return (
     <div
       style={{
-        width: "600px",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
@@ -38,7 +36,7 @@ function Signup() {
         </Typography>
       </center>
 
-      <Card variant="outlined" style={{ width: "100%", padding: "8px" }}>
+      <Card variant="outlined" style={{ width: "400px", padding: "8px" }}>
         <div style={cardStyle}>
           <TextField
             id="username"
@@ -78,7 +76,7 @@ function Signup() {
               .then((res) => res.json())
               .then((data) => {
                 localStorage.setItem("token", data.token);
-                window.location ="/"
+                window.location = "/";
                 console.log(data);
               })
               .catch((err) => console.log("error in catch"));

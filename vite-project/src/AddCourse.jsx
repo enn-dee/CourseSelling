@@ -1,46 +1,66 @@
 import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import { TextField, Card } from "@mui/material";
-import Typography from "@mui/material/Typography";
 function AddCourse() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [image, setImg] = useState("");
+  const fieldStyle = {
+    padding: "7px",
+    maxWidth: "400px",
+  };
   return (
-    <div style={{ margin: "1rem 0" }}>
+    <div
+      style={{
+        margin: "1rem 0",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
       <Card
         variant="outlined"
         style={{
           width: "100%",
           padding: "8px",
+          maxWidth: "400px",
         }}
       >
         <TextField
           label="Title"
           variant="outlined"
           fullWidth={true}
-          style={{ padding: "7px" }}
+          style={fieldStyle}
           onChange={(e) => {
             setTitle(e.target.value);
           }}
         />
         <TextField
-          style={{ padding: "7px" }}
+          style={fieldStyle}
           label="Description"
           variant="outlined"
           fullWidth={true}
           onChange={(e) => setDescription(e.target.value)}
         />
+        <TextField
+          style={fieldStyle}
+          label="Image Link"
+          variant="outlined"
+          fullWidth={true}
+          onChange={(e) => setImg(e.target.value)}
+        />
         <Button
           variant="contained"
           size="large"
-          style={{ margin: ".8rem 0" }}
+          style={{ margin: ".8rem 0", maxWidth: "400px" }}
           onClick={() => {
             fetch("http://localhost:3000/admin/courses", {
               method: "POST",
               body: JSON.stringify({
                 title: title,
                 description: description,
-                imageLink: "",
+                imageLink: image,
                 published: true,
               }),
               headers: {

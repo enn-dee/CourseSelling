@@ -8,6 +8,7 @@ import Appbar from "./Appbar";
 import SignIn from "./SignIn";
 import AddCourse from "./AddCourse";
 import Courses from "./Courses";
+import Course from "./Course";
 
 function App() {
   return (
@@ -18,13 +19,15 @@ function App() {
         background: "#eeeeee",
         display: "flex",
         flexDirection: "column",
-        alignItems: "center",
+        justifyContent: "flex-start",
+        // alignItems: "center",
         color: "black",
       }}
     >
       <Router>
         <Appbar></Appbar>
         <Routes>
+          <Route path="/course/:courseId" element={<Course />} />
           <Route path="/courses" element={<Courses />} />
           <Route path="/addcourse" element={<AddCourse />} />
           <Route path="/signin" element={<SignIn />} />

@@ -88,20 +88,6 @@ app.post("/admin/courses", authenticateJwt, (req, res) => {
   res.json({ message: "Course created successfully", courseId: course.id });
 });
 
-// app.post("/admin/courses", authenticateJwt, (req, res) => {
-//   const course = req.body;
-//   course.id = COURSES.length + 1;
-
-//   COURSES.push(course);
-//   fs.writeFile("courses.json", JSON.stringify(COURSES), (writeErr) => {
-//     if (writeErr) {
-//       console.error("Error writing file:", writeErr);
-//       return res.status(500).json({ message: "Internal Server Error" });
-//     }
-//     res.json({ message: "Course created successfully", courseId: course.id });
-//   });
-// });
-
 app.put("/admin/courses/:courseId", authenticateJwt, (req, res) => {
   const course = COURSES.find((c) => c.id === parseInt(req.params.courseId));
   if (course) {
