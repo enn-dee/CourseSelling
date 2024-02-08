@@ -20,7 +20,7 @@ try {
 } catch (error) {
   console.error("Error initializing data:", error);
   ADMINS = [];
-   USERS = [];
+  USERS = [];
   COURSES = [];
 }
 
@@ -47,7 +47,7 @@ const authenticateJwt = (req, res, next) => {
 app.post("/admin/signup", (req, res) => {
   const { username, password } = req.body;
   const admin = ADMINS.find((a) => a.username === username);
-  console.log("admin signup");
+  // console.log("admin signup");
   if (admin) {
     res.status(403).json({ message: "Admin already exists" });
   } else {
@@ -80,36 +80,27 @@ app.get("/admin/me", authenticateJwt, (req, res) => {
   res.status(200).json({ username: req.user.username });
 });
 
+app.post("/admin/courses", authenticateJwt, (req, res) => {
+  const course = req.body;
+  course.id = COURSES.length + 1;
+  COURSES.push(course);
+  fs.writeFileSync("courses.json", JSON.stringify(COURSES));
+  res.json({ message: "Course created successfully", courseId: course.id });
+});
+
 // app.post("/admin/courses", authenticateJwt, (req, res) => {
 //   const course = req.body;
 //   course.id = COURSES.length + 1;
-//   COURSES.push(course);
-//   // fs.writeFileSync("courses.json", JSON.stringify(COURSES));
-//   // res.json({ message: "Course created successfully", courseId: course.id });
 
+//   COURSES.push(course);
 //   fs.writeFile("courses.json", JSON.stringify(COURSES), (writeErr) => {
 //     if (writeErr) {
 //       console.error("Error writing file:", writeErr);
 //       return res.status(500).json({ message: "Internal Server Error" });
 //     }
-
 //     res.json({ message: "Course created successfully", courseId: course.id });
 //   });
 // });
-
-app.post("/admin/courses", authenticateJwt, (req, res) => {
-  const course = req.body;
-  course.id = COURSES.length + 1;
-
-  COURSES.push(course);
-  fs.writeFile("courses.json", JSON.stringify(COURSES), (writeErr) => {
-    if (writeErr) {
-      console.error("Error writing file:", writeErr);
-      return res.status(500).json({ message: "Internal Server Error" });
-    }
-    res.json({ message: "Course created successfully", courseId: course.id });
-  });
-});
 
 app.put("/admin/courses/:courseId", authenticateJwt, (req, res) => {
   const course = COURSES.find((c) => c.id === parseInt(req.params.courseId));
