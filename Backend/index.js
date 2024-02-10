@@ -100,8 +100,6 @@ app.put("/admin/courses/:courseId", authenticateJwt, (req, res) => {
 });
 
 app.get("/admin/courses", authenticateJwt, (req, res) => {
-  // const dummy = JSON.parse(fs.readFileSync("courses.json", "utf-8"));
-  // console.log("dummy contains data: ", dummy);
   res.json({ courses: COURSES });
 });
 

@@ -77,7 +77,6 @@ function Signup() {
               .then((data) => {
                 localStorage.setItem("token", data.token);
                 window.location = "/";
-                console.log(data);
               })
               .catch((err) => console.log("error in catch"));
           }}
