@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import { TextField, Card } from "@mui/material";
 import Typography from "@mui/material/Typography";
+import axios from "axios";
 
 function Signup() {
   const [username, setusername] = useState("");
@@ -63,19 +64,21 @@ function Signup() {
           size="large"
           style={{ margin: ".8rem 0" }}
           onClick={() => {
-            fetch("http://localhost:3000/admin/signup", {
-              method: "POST",
-              body: JSON.stringify({
-                username: username,
-                password: password,
-              }),
-              headers: {
-                "Content-type": "application/json",
-              },
-            })
-              .then((res) => res.json())
-              .then((data) => {
-                localStorage.setItem("token", data.token);
+            axios
+              .post(
+                "http://localhost:3000/admin/signup",
+                JSON.stringify({
+                  username,
+                  password,
+                }),
+                {
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                }
+              )
+              .then((res) => {
+                localStorage.setItem("token", res.data.token);
                 window.location = "/";
               })
               .catch((err) => console.log("error in catch"));
