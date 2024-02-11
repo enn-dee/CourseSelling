@@ -3,10 +3,14 @@ import Button from "@mui/material/Button";
 import { TextField, Card } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function Signup() {
+  const navigate = useNavigate();
+
   const [username, setusername] = useState("");
   const [password, setPass] = useState("");
+
   const cardStyle = {
     display: "flex",
     flexDirection: "column",
@@ -20,6 +24,7 @@ function Signup() {
     borderRadius: "6px",
     color: "black",
   };
+
   return (
     <div
       style={{
@@ -79,7 +84,8 @@ function Signup() {
               )
               .then((res) => {
                 localStorage.setItem("token", res.data.token);
-                window.location = "/";
+                navigate("/addcourse");
+               // window.location = "/";
               })
               .catch((err) => console.log("error in catch"));
           }}
