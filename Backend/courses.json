@@ -1,1 +1,16 @@
-[{"title":"course - 3","description":"hello worl","imageLink":"https://picsum.photos/id/23/200/300","published":true,"id":1},{"title":"anon","description":"learning fullstack","imageLink":"","published":true,"id":2}]
+[
+  {
+    "title": "course - 3",
+    "description": "hello worl",
+    "imageLink": "https://picsum.photos/id/23/200/300",
+    "published": true,
+    "id": 1
+  },
+  {
+    "title": "anon",
+    "description": "learning fullstack",
+    "imageLink": "",
+    "published": true,
+    "id": 2
+  }
+]
