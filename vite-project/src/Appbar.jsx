@@ -2,24 +2,23 @@ import React, { useEffect, useState } from "react";
 import { Typography } from "@mui/material";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
 function Appbar() {
   const navigate = useNavigate();
   const [userEmail, setUserEmail] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:3000/admin/me", {
-      method: "GET",
-      headers: {
-        "Content-type": "application/json",
-        Authorization: "Bearer " + localStorage.getItem("token"),
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.username) {
-          setUserEmail(data.username);
-          // console.log(data.username);
-        }
+    axios
+      .get("http://localhost:3000/admin/me", {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      })
+      .then((res) => setUserEmail(res.data.username))
+      .catch((e) => {
+        console.log("error in catch block: ", e);
       });
   }, []);
   if (userEmail) {

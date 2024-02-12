@@ -1,6 +1,7 @@
 import { Card, Typography, TextField, Button } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   atom,
   useRecoilState,
@@ -10,6 +11,8 @@ import {
 
 function Course() {
   // const [course, setCourses] = useState([]);
+  const navigate = useNavigate();
+
   const { courseId } = useParams();
   const setCourses = useSetRecoilState(coursesState);
   console.log("course component");
@@ -80,6 +83,15 @@ function UpdateCard(props) {
           maxWidth: "400px",
         }}
       >
+        <Button
+          variant="contained"
+          size="large"
+          onClick={() => {
+            navigate("/addcourse");
+          }}
+        >
+          Add Course
+        </Button>
         <Typography variant="h4">Update Course Details</Typography>
         <TextField
           label="Title"
