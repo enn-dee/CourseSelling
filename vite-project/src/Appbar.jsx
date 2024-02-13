@@ -3,6 +3,12 @@ import { Typography } from "@mui/material";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import {
+  atom,
+  useRecoilState,
+  useRecoilValue,
+  useSetRecoilState,
+} from "recoil";
 
 function Appbar() {
   const navigate = useNavigate();
@@ -29,6 +35,7 @@ function Appbar() {
           display: "flex",
           flexDirection: "row",
           justifyContent: "space-between",
+          alignItems:"center",
           padding: "4px",
           background: "#ffee",
         }}
@@ -44,7 +51,18 @@ function Appbar() {
             alignItems: "center",
           }}
         >
-          <div>{userEmail}</div>
+          <div>
+            {/* {userEmail} */}
+            <img
+              src="https://images.pexels.com/photos/4709286/pexels-photo-4709286.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+              style={{
+                width: "40px",
+                height: "40px",
+                objectFit: "cover",
+                borderRadius: "50%",
+              }}
+            />
+          </div>
           <Button
             variant="contained"
             onClick={() => {
@@ -96,3 +114,7 @@ function Appbar() {
 }
 
 export default Appbar;
+const userEmail = atom({
+  key: "userEmail",
+  default: "",
+});
